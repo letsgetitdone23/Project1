@@ -326,6 +326,7 @@ Present clear user-friendly recommendations with transparent rationale.
 - **Response composer**
   - Merge DB fields + LLM rank/explanation
   - Add metadata (request id, timing, fallback_used, optional summary)
+  - For "no match" scenarios, return `200` with empty `recommendations` plus a user-guidance `summary` (instead of raising `404`)
 - **Presentation contract**
   - list of recommendations with:
     - name, cuisine, rating, estimated cost, AI explanation
@@ -334,13 +335,14 @@ Present clear user-friendly recommendations with transparent rationale.
   - top navigation includes location selector, search box, and user entry area in line with design direction
   - fetches selectable values from backend (`GET /v1/cities`)
   - submits recommendation requests to backend (`POST /v1/recommendations`)
-  - supports loading, error, and response metadata display
+  - supports loading, error, and recommendation summary display (request id/timing metadata is not shown in frontend)
 
 ### Response shape (client-facing)
 ```json
 {
   "request_id": "req_abc",
   "used_fallback": false,
+  "summary": "Optional recommendation summary or no-match guidance text.",
   "recommendations": [
     {
       "name": "Trattoria Roma",
@@ -361,6 +363,7 @@ Present clear user-friendly recommendations with transparent rationale.
 ### Exit criteria
 - Users can submit preferences and receive understandable top-K recommendations
 - API and UI handle errors gracefully
+- No-match requests are handled gracefully in UI without API 404 interruption
 
 ---
 
@@ -469,6 +472,26 @@ Measure quality, reliability, and user impact; iterate safely.
 2. Deploy frontend to Vercel with updated backend URL.
 3. Smoke test: city load, recommendation request, and fallback behavior.
 4. Monitor API latency, fallback rate, and error logs after release.
+
+---
+
+## 4.2) Operational Validation Snapshot
+
+### Verified API/UI runtime behavior
+- `GET /v1/cities` returns `30` normalized location values used by frontend dropdowns.
+- Frontends use backend city list first and include full 30-city fallback options if city API is unavailable.
+- Recommendation no-match flow returns `200` with:
+  - empty `recommendations`
+  - explanatory `summary` for user guidance
+- Next.js frontend hides raw request tracing text (request id and latency), while still using backend metadata internally.
+- Backend and frontend run successfully on local ports:
+  - backend: `127.0.0.1:8000`
+  - frontend: `127.0.0.1:3000`
+
+### Sample successful recommendation outcomes (validated)
+- `banashankari` -> top picks include `Onesta`, `The Blue Wagon - Kitchen`, `Stoned Monkey`
+- `hsr` -> top picks include `Tipsy Bull - The Bar Exchange`, `Shift`, `Opus Food Stories`
+- `indiranagar` -> top picks include `Delhi Highway`, `Burma Burma`, `Toit`
 
 ---
 

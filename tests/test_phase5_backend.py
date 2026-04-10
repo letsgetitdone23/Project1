@@ -97,7 +97,7 @@ def test_phase5_response_fallback_metadata(monkeypatch) -> None:
     assert len(body["recommendations"]) <= 2
 
 
-def test_phase5_no_results_404() -> None:
+def test_phase5_no_results_returns_empty_200() -> None:
     client = TestClient(app)
     response = client.post(
         "/v1/recommendations",
@@ -109,5 +109,9 @@ def test_phase5_no_results_404() -> None:
             "top_k": 2,
         },
     )
-    assert response.status_code == 404
+    assert response.status_code == 200
+    body = response.json()
+    assert body["recommendations"] == []
+    assert body["used_fallback"] is True
+    assert isinstance(body.get("summary"), str) and body["summary"]
 

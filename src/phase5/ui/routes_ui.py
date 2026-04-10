@@ -184,8 +184,7 @@ def home() -> str:
         }
 
         const data = await response.json();
-        const fallbackText = data.used_fallback ? "Yes" : "No";
-        statusEl.textContent = `Request ${data.request_id} | Fallback: ${fallbackText} | Time: ${data.timing_ms} ms`;
+        statusEl.textContent = "";
 
         if (data.summary) {
           resultsEl.innerHTML += `<div class="card"><strong>Summary:</strong> ${data.summary}</div>`;

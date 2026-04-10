@@ -57,7 +57,12 @@ def recommend(request: RecommendationRequest) -> RecommendationResponse:
             "recommendation_not_found",
             {"city": normalized.city, "top_k": normalized.top_k, "timing_ms": round(elapsed_ms, 2)},
         )
-        raise HTTPException(status_code=404, detail="No restaurants found matching the given preferences.")
+        return compose_recommendation_response(
+            ranked_items=[],
+            used_fallback=True,
+            timing_ms=elapsed_ms,
+            summary="No restaurants found for the selected filters. Try a nearby location, lower rating, or wider budget.",
+        )
 
     effective_top_k = normalized.top_k if normalized.top_k is not None else len(ranked)
     effective_top_k = max(1, min(effective_top_k, len(ranked)))

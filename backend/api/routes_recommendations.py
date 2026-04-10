@@ -3,7 +3,7 @@ from __future__ import annotations
 import uuid
 from typing import List
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from ..data.repository import get_session
 from ..services.preference_normalizer import normalize_preferences
@@ -33,9 +33,10 @@ def recommend(request: RecommendationRequest) -> RecommendationResponse:
         ranked = get_ranked_restaurants(session, normalized)
 
     if not ranked:
-        raise HTTPException(
-            status_code=404,
-            detail="No restaurants found matching the given preferences.",
+        return RecommendationResponse(
+            request_id=str(uuid.uuid4()),
+            used_fallback=True,
+            recommendations=[],
         )
 
     top = ranked[: normalized.top_k]

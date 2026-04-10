@@ -123,6 +123,7 @@ export default function HomePage() {
 
   const curatedCount = (result?.recommendations ?? []).length;
   const hasResults = curatedCount > 0;
+  const hasNoResults = Boolean(result) && curatedCount === 0;
 
   return (
     <>
@@ -261,11 +262,6 @@ export default function HomePage() {
             <button className="btn btn-primary" onClick={onSubmit} disabled={loading}>
               Find My Perfect Meal
             </button>
-            {result && (
-              <p className="muted" style={{ marginTop: 14 }}>
-                Request {result.request_id.slice(0, 8)}... | {result.timing_ms}ms
-              </p>
-            )}
           </div>
         </section>
 
@@ -328,6 +324,16 @@ export default function HomePage() {
             </section>
           </div>
         </section>}
+
+        {hasNoResults && (
+          <section className="panel" style={{ marginTop: 16 }}>
+            <h3>No matches found</h3>
+            <p className="muted">
+              {result?.summary ??
+                "No restaurants matched the selected filters. Try lowering minimum rating, increasing budget, or changing location."}
+            </p>
+          </section>
+        )}
       </main>
     </>
   );

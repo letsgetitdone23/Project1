@@ -71,12 +71,11 @@ def test_recommendations_endpoint_live_response_shape() -> None:
             "top_k": 3,
         },
     )
-    assert response.status_code in {200, 404}
-    if response.status_code == 200:
-        body = response.json()
-        assert "request_id" in body
-        assert "used_fallback" in body
-        assert isinstance(body.get("recommendations"), list)
+    assert response.status_code == 200
+    body = response.json()
+    assert "request_id" in body
+    assert "used_fallback" in body
+    assert isinstance(body.get("recommendations"), list)
 
 
 def test_recommendations_endpoint_second_profile() -> None:
@@ -92,8 +91,7 @@ def test_recommendations_endpoint_second_profile() -> None:
             "top_k": 2,
         },
     )
-    assert response.status_code in {200, 404}
-    if response.status_code == 200:
-        body = response.json()
-        assert len(body["recommendations"]) <= 2
+    assert response.status_code == 200
+    body = response.json()
+    assert len(body["recommendations"]) <= 2
 

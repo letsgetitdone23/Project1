@@ -1,6 +1,11 @@
--Don't show this part on the Frontend Basic UI for end-to-end testing (Phase 5 backend + API), Quick links: API Docs | Health | Metrics
--In location we should show the users a dropdown where users can select- the locations are the 30 city that are there in the data
--In budget we can enter numercial value rather than low medium high
-( change the logic in the prompt as well)
--Top K is not required
--We can fix the amount to 40 of restaurants we are sending to the model
+Resolved improvements:
+- Removed health visibility from frontend-facing surfaces.
+- Location input is dropdown-driven from `GET /v1/cities` with 30-city behavior and full fallback list.
+- Budget is numeric cost-for-two input and used in normalization/retrieval.
+- `top_k` is optional; if omitted, backend returns all ranked matches.
+- Model candidate shortlist remains fixed at 40 for LLM ranking context.
+
+Additional runtime hardening:
+- No-match recommendation requests return `200` with empty recommendations and guidance summary (no frontend-breaking 404).
+- Streamlit deployment path includes DB-readiness error handling for safer operations.
+- Next.js frontend no longer displays request id / timing trace text (`Request ... | ...ms`) to end users.

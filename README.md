@@ -99,6 +99,7 @@ Report path:
 - Frontend location dropdown should consume `GET /v1/cities`.
 - This endpoint returns all distinct values from the `city` column.
 - Current processed dataset snapshot contains `30` city values.
+- Frontend recommendation UI intentionally hides raw request tracing text (request id / timing) from end users.
 
 ### Deploy backend on Streamlit
 
