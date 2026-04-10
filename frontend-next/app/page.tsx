@@ -21,6 +21,38 @@ type ApiResponse = {
 };
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
+const FALLBACK_CITIES = [
+  "banashankari",
+  "bannerghatta road",
+  "basavanagudi",
+  "bellandur",
+  "brigade road",
+  "brookefield",
+  "btm",
+  "church street",
+  "electronic city",
+  "frazer town",
+  "hsr",
+  "indiranagar",
+  "jayanagar",
+  "jp nagar",
+  "kalyan nagar",
+  "kammanahalli",
+  "koramangala 4th block",
+  "koramangala 5th block",
+  "koramangala 6th block",
+  "koramangala 7th block",
+  "lavelle road",
+  "malleshwaram",
+  "marathahalli",
+  "mg road",
+  "new bel road",
+  "old airport road",
+  "rajajinagar",
+  "residency road",
+  "sarjapur road",
+  "whitefield"
+];
 
 export default function HomePage() {
   const [cities, setCities] = useState<string[]>([]);
@@ -38,13 +70,15 @@ export default function HomePage() {
     const loadCities = async () => {
       try {
         const res = await fetch(`${API_BASE}/v1/cities`);
+        if (!res.ok) throw new Error(`Cities API ${res.status}`);
         const data = await res.json();
         const list = Array.isArray(data.cities) ? data.cities : [];
+        if (!list.length) throw new Error("Cities list is empty");
         setCities(list);
         if (list.length > 0) setLocation(list[0]);
       } catch {
-        setCities(["bangalore"]);
-        setLocation("bangalore");
+        setCities(FALLBACK_CITIES);
+        setLocation(FALLBACK_CITIES[0]);
       }
     };
     loadCities();

@@ -19,6 +19,13 @@ def list_cities() -> dict:
                 .order_by(Restaurant.city.asc())
             )
         )
-    cities = [v for v in values if isinstance(v, str) and v.strip()]
+    # Normalize and deduplicate city labels so frontend dropdowns remain stable.
+    cities = sorted(
+        {
+            v.strip().lower()
+            for v in values
+            if isinstance(v, str) and v.strip()
+        }
+    )
     return {"cities": cities, "count": len(cities)}
 

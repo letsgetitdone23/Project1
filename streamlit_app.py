@@ -1,11 +1,8 @@
 from __future__ import annotations
 
-import asyncio
-
 import streamlit as st
 from fastapi import HTTPException
 
-from src.phase0.api.routes_health import health
 from src.phase2.api.schemas import RecommendationRequest
 from src.phase3.api.routes_cities import list_cities
 from src.phase3.api.routes_recommendations import recommend
@@ -14,15 +11,9 @@ from src.phase6.api.routes_metrics import get_metrics
 
 st.set_page_config(page_title="Restaurant Backend Console", layout="wide")
 st.title("Restaurant Recommender Backend (Streamlit)")
-st.caption("Operational console for health, data lookup, and recommendation execution.")
+st.caption("Operational console for city lookup, metrics, and recommendation execution.")
 
-health_col, cities_col, metrics_col = st.columns(3)
-
-with health_col:
-    st.subheader("Health")
-    if st.button("Check Health"):
-        response = asyncio.run(health())
-        st.json(response)
+cities_col, metrics_col = st.columns(2)
 
 with cities_col:
     st.subheader("Cities")

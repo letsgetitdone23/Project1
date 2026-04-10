@@ -62,6 +62,39 @@ def home() -> str:
   <div id="results"></div>
 
   <script>
+    const FALLBACK_CITIES = [
+      "banashankari",
+      "bannerghatta road",
+      "basavanagudi",
+      "bellandur",
+      "brigade road",
+      "brookefield",
+      "btm",
+      "church street",
+      "electronic city",
+      "frazer town",
+      "hsr",
+      "indiranagar",
+      "jayanagar",
+      "jp nagar",
+      "kalyan nagar",
+      "kammanahalli",
+      "koramangala 4th block",
+      "koramangala 5th block",
+      "koramangala 6th block",
+      "koramangala 7th block",
+      "lavelle road",
+      "malleshwaram",
+      "marathahalli",
+      "mg road",
+      "new bel road",
+      "old airport road",
+      "rajajinagar",
+      "residency road",
+      "sarjapur road",
+      "whitefield"
+    ];
+
     const statusEl = document.getElementById("status");
     const resultsEl = document.getElementById("results");
     const submitBtn = document.getElementById("submitBtn");
@@ -94,6 +127,7 @@ def home() -> str:
         if (!response.ok) throw new Error("Failed to load cities");
         const data = await response.json();
         const list = Array.isArray(data.cities) ? data.cities : [];
+        if (!list.length) throw new Error("Empty cities list");
         locationEl.innerHTML = "";
         list.forEach((name, idx) => {
           const opt = document.createElement("option");
@@ -103,13 +137,23 @@ def home() -> str:
           locationEl.appendChild(opt);
         });
         if (!list.length) {
-          const opt = document.createElement("option");
-          opt.value = "bangalore";
-          opt.textContent = "bangalore";
-          locationEl.appendChild(opt);
+          FALLBACK_CITIES.forEach((name, idx) => {
+            const opt = document.createElement("option");
+            opt.value = name;
+            opt.textContent = name;
+            if (idx === 0) opt.selected = true;
+            locationEl.appendChild(opt);
+          });
         }
       } catch (_err) {
-        locationEl.innerHTML = `<option value="bangalore">bangalore</option>`;
+        locationEl.innerHTML = "";
+        FALLBACK_CITIES.forEach((name, idx) => {
+          const opt = document.createElement("option");
+          opt.value = name;
+          opt.textContent = name;
+          if (idx === 0) opt.selected = true;
+          locationEl.appendChild(opt);
+        });
       }
     }
 

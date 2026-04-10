@@ -120,7 +120,6 @@ streamlit run streamlit_app.py
 ```
 
 The Streamlit backend console supports:
-- Health check
 - Cities lookup
 - Metrics snapshot
 - Recommendation execution using existing backend services
