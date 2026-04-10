@@ -3,6 +3,7 @@ from __future__ import annotations
 from time import perf_counter
 
 from fastapi import APIRouter, HTTPException
+from sqlalchemy.exc import SQLAlchemyError
 
 from src.phase0.data.repository import get_session
 from src.phase2.api.schemas import RecommendationRequest, RecommendationResponse
@@ -34,8 +35,17 @@ def recommend(request: RecommendationRequest) -> RecommendationResponse:
     )
 
     retrieval_start = perf_counter()
-    with get_session() as session:
-        ranked = get_ranked_restaurants(session, normalized)
+    try:
+        with get_session() as session:
+            ranked = get_ranked_restaurants(session, normalized)
+    except SQLAlchemyError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "Database is not ready. Ensure DATABASE_URL is valid and the "
+                "restaurants table is initialized with data."
+            ),
+        ) from exc
     retrieval_ms = (perf_counter() - retrieval_start) * 1000
     metrics_store.record_retrieval_latency(retrieval_ms)
 

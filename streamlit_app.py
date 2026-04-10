@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import streamlit as st
 from fastapi import HTTPException
+from sqlalchemy.exc import SQLAlchemyError
 
 from src.phase2.api.schemas import RecommendationRequest
+from src.phase0.data.repository import init_db
 from src.phase3.api.routes_cities import list_cities
 from src.phase3.api.routes_recommendations import recommend
 from src.phase6.api.routes_metrics import get_metrics
@@ -13,12 +15,20 @@ st.set_page_config(page_title="Restaurant Backend Console", layout="wide")
 st.title("Restaurant Recommender Backend (Streamlit)")
 st.caption("Operational console for city lookup, metrics, and recommendation execution.")
 
+try:
+    init_db()
+except SQLAlchemyError as exc:
+    st.error(f"Database initialization failed: {exc}")
+
 cities_col, metrics_col = st.columns(2)
 
 with cities_col:
     st.subheader("Cities")
     if st.button("Load Cities"):
-        st.json(list_cities())
+        try:
+            st.json(list_cities())
+        except HTTPException as exc:
+            st.error(f"API error {exc.status_code}: {exc.detail}")
 
 with metrics_col:
     st.subheader("Metrics")
