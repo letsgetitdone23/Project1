@@ -10,10 +10,6 @@ __pycache__/
 node_modules/
 .next/
 
-*.db
-*.sqlite
-*.sqlite3
-
 data/raw/
 data/processed/
 
