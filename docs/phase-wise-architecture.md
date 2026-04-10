@@ -455,6 +455,7 @@ Measure quality, reliability, and user impact; iterate safely.
   - Serves UI assets, SSR/static routes, and recommendation screens.
 - **Streamlit (backend)**
   - Hosts backend API runtime and recommendation pipeline.
+  - Streamlit page is aligned with frontend-style recommendation UX (single recommendation flow, no separate cities/metrics panels in UI).
   - Exposes API endpoints consumed by frontend (`/v1/health`, `/v1/cities`, `/v1/recommendations`, `/v1/metrics`).
   - Stores runtime secrets as environment variables (for example `GROQ_API_KEY`, DB URL).
 

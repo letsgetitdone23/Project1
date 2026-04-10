@@ -120,10 +120,10 @@ Use Streamlit Community Cloud to run backend operations UI:
 streamlit run streamlit_app.py
 ```
 
-The Streamlit backend console supports:
-- Cities lookup
-- Metrics snapshot
-- Recommendation execution using existing backend services
+The Streamlit backend UI mirrors frontend recommendation flow and supports:
+- location dropdown (30-city behavior with fallback)
+- recommendation execution using existing backend services
+- card-style recommendation output with summary/no-match guidance
 
 ### Connect Vercel frontend to deployed backend
 
