@@ -1,0 +1,25 @@
+{
+  "profiles": [
+    {
+      "name": "budget_italian_bangalore",
+      "status_code": 404,
+      "used_fallback": null,
+      "timing_ms": null,
+      "recommendation_count": 0
+    },
+    {
+      "name": "quick_service_high_budget",
+      "status_code": 404,
+      "used_fallback": null,
+      "timing_ms": null,
+      "recommendation_count": 0
+    },
+    {
+      "name": "strict_no_result_profile",
+      "status_code": 404,
+      "used_fallback": null,
+      "timing_ms": null,
+      "recommendation_count": 0
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+-Don't show this part on the Frontend Basic UI for end-to-end testing (Phase 5 backend + API), Quick links: API Docs | Health | Metrics
+-In location we should show the users a dropdown where users can select- the locations are the 30 city that are there in the data
+-In budget we can enter numercial value rather than low medium high
+( change the logic in the prompt as well)
+-Top K is not required
+-We can fix the amount to 40 of restaurants we are sending to the model

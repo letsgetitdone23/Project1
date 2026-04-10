@@ -1,0 +1,36 @@
+[
+  {
+    "name": "budget_italian_bangalore",
+    "input": {
+      "location": "Bangalore",
+      "budget": "medium",
+      "cuisine": ["Italian"],
+      "min_rating": 4.0,
+      "additional_preferences": ["family-friendly"],
+      "top_k": 3
+    }
+  },
+  {
+    "name": "quick_service_high_budget",
+    "input": {
+      "location": "Bangalore",
+      "budget": "high",
+      "cuisine": ["North Indian", "Chinese"],
+      "min_rating": 3.8,
+      "additional_preferences": ["quick service"],
+      "top_k": 3
+    }
+  },
+  {
+    "name": "strict_no_result_profile",
+    "input": {
+      "location": "nonexistent-city-xyz",
+      "budget": "high",
+      "cuisine": ["Italian"],
+      "min_rating": 4.9,
+      "additional_preferences": ["family-friendly"],
+      "top_k": 3
+    }
+  }
+]
+
