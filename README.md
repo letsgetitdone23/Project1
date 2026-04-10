@@ -100,3 +100,36 @@ Report path:
 - This endpoint returns all distinct values from the `city` column.
 - Current processed dataset snapshot contains `30` city values.
 
+### Deploy backend on Streamlit
+
+Use Streamlit Community Cloud to run backend operations UI:
+
+1. Add dependencies:
+   - `requirements.txt` already includes `streamlit`.
+2. Set Streamlit secrets (app settings):
+   - `GROQ_API_KEY`
+   - `DATABASE_URL`
+   - `CORS_ALLOW_ORIGINS` (include your Vercel URL and local URL)
+   - You can start from `.streamlit/secrets.toml.example`.
+3. Streamlit entrypoint:
+   - `streamlit_app.py`
+4. Local check:
+
+```bash
+streamlit run streamlit_app.py
+```
+
+The Streamlit backend console supports:
+- Health check
+- Cities lookup
+- Metrics snapshot
+- Recommendation execution using existing backend services
+
+### Connect Vercel frontend to deployed backend
+
+In Vercel project settings, set:
+- `NEXT_PUBLIC_API_BASE_URL=<your_streamlit_backend_url>`
+
+In backend secrets, set:
+- `CORS_ALLOW_ORIGINS=https://<your-vercel-domain>,http://localhost:3000`
+

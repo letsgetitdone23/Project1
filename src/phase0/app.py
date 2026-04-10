@@ -15,6 +15,16 @@ from src.phase6.api import routes_metrics
 
 load_dotenv()
 
+
+def _cors_allow_origins() -> list[str]:
+    raw_origins = os.getenv("CORS_ALLOW_ORIGINS", "").strip()
+    if raw_origins:
+        return [origin.strip() for origin in raw_origins.split(",") if origin.strip()]
+    return [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
+
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     _ = os.getenv("DATABASE_URL")
@@ -25,10 +35,7 @@ app = FastAPI(title="AI Restaurant Recommender", version="0.1.0", lifespan=lifes
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
+    allow_origins=_cors_allow_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
