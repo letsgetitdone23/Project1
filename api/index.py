@@ -1,9 +1,8 @@
 from fastapi import FastAPI
-from backend.api import routes_health, routes_recommendations
+from src.phase3.api.routes_cities import router as cities_router
+from src.phase3.api.routes_recommendations import router as rec_router
 
 app = FastAPI(title="Vercel FastAPI Backend")
 
-# Vercel routes /api/v1/* to this file automatically, and passes the path to the app.
-# We mount the routes with the prefix so FastAPI correctly matches /api/v1/cities.
-app.include_router(routes_health.router, prefix="/api/v1")
-app.include_router(routes_recommendations.router, prefix="/api/v1")
+app.include_router(cities_router, prefix="/api/v1")
+app.include_router(rec_router, prefix="/api/v1")
