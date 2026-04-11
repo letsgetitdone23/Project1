@@ -20,7 +20,7 @@ type ApiResponse = {
   recommendations: Recommendation[];
 };
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
+
 const FALLBACK_CITIES = [
   "banashankari",
   "bannerghatta road",
@@ -69,7 +69,7 @@ export default function HomePage() {
   useEffect(() => {
     const loadCities = async () => {
       try {
-        const res = await fetch(`${API_BASE}/v1/cities`);
+        const res = await fetch(`/api/v1/cities`);
         if (!res.ok) throw new Error(`Cities API ${res.status}`);
         const data = await res.json();
         const list = Array.isArray(data.cities) ? data.cities : [];
@@ -106,7 +106,7 @@ export default function HomePage() {
         additional_preferences: tags,
         ...(topK.trim() ? { top_k: Number(topK) } : {})
       };
-      const res = await fetch(`${API_BASE}/v1/recommendations`, {
+      const res = await fetch(`/api/v1/recommendations`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

@@ -13,6 +13,6 @@ node_modules/
 data/raw/
 data/processed/
 
-frontend-next/.next/
-frontend-next/node_modules/
+.next/
+node_modules/
 .streamlit/secrets.toml
